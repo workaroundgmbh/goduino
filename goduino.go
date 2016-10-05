@@ -2,12 +2,13 @@ package goduino
 
 import (
 	"fmt"
-	"github.com/argandas/goduino/firmata"
-	"github.com/tarm/serial"
 	"io"
 	"log"
-	"os"
 	"time"
+
+	"goduino/firmata"
+
+	"github.com/tarm/serial"
 )
 
 const (
@@ -46,17 +47,17 @@ type Goduino struct {
 // Creates a new Goduino object and connects to the Arduino board
 // over specified serial port. This function blocks till a connection is
 // succesfullt established and pin mappings are retrieved.
-func New(name string, args ...interface{}) *Goduino {
+func New(name string, logOutput io.Writer, args ...interface{}) *Goduino {
 	// Create new Goduino client
 	goduino := &Goduino{
 		name:  name,
 		port:  "",
 		conn:  nil,
-		board: firmata.New(),
+		board: firmata.New(logOutput),
 		openSP: func(port string) (io.ReadWriteCloser, error) {
 			return serial.OpenPort(&serial.Config{Name: port, Baud: 57600})
 		},
-		logger:  log.New(os.Stdout, fmt.Sprintf("[%s] ", name), log.Ltime),
+		logger:  log.New(logOutput, fmt.Sprintf("[%s] ", name), log.Ltime),
 		verbose: true,
 	}
 	// Parse variadic args

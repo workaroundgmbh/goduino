@@ -7,7 +7,6 @@ import (
 	"io"
 	"log"
 	"math"
-	"os"
 	"time"
 )
 
@@ -45,7 +44,7 @@ type I2cReply struct {
 }
 
 // New returns a new Firmata
-func New() *Firmata {
+func New(logOutput io.Writer) *Firmata {
 	c := &Firmata{
 		ProtocolVersion: "",
 		FirmwareName:    "",
@@ -53,7 +52,7 @@ func New() *Firmata {
 		pins:            []Pin{},
 		analogPins:      []int{},
 		connected:       false,
-		logger:          log.New(os.Stdout, "[firmata] ", log.Ltime),
+		logger:          log.New(logOutput, "[firmdata] ", log.Ltime),
 	}
 
 	return c
