@@ -383,7 +383,7 @@ func (f *Firmata) parseSysEx(data []byte) {
 			if val != 127 {
 				f.analogPins = append(f.analogPins, index)
 			}
-			// fmt.Println(index, ":", f.pins[index].AnalogChannel, ":", val)
+			// f.logger.Println(index, ":", f.pins[index].AnalogChannel, ":", val)
 		}
 		f.logger.Printf("pin -> channel: %v\n", f.analogPins)
 		f.connected = true
@@ -434,7 +434,7 @@ func (f *Firmata) parseSysEx(data []byte) {
 }
 
 func (f *Firmata) printByteArray(title string, data []uint8) {
-	fmt.Println()
+	f.logger.Println()
 	f.logger.Println(title)
 	str := ""
 	for index, b := range data {
@@ -444,11 +444,11 @@ func (f *Firmata) printByteArray(title string, data []uint8) {
 			str = ""
 		}
 	}
-	fmt.Println()
+	f.logger.Println()
 }
 
 func (f *Firmata) printSysExData(title string, cmd SysExCommand, data []uint8) {
-	fmt.Println()
+	f.logger.Println()
 	f.logger.Println(title, "-", cmd)
 	str := ""
 	for index, b := range data {
@@ -458,5 +458,5 @@ func (f *Firmata) printSysExData(title string, cmd SysExCommand, data []uint8) {
 			str = ""
 		}
 	}
-	fmt.Println()
+	f.logger.Println()
 }
